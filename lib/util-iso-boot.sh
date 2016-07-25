@@ -118,7 +118,7 @@ write_dvd_conf(){
 		echo "initrd  /EFI/miso/intel_ucode.img" >> ${conf}
 	fi
 	echo "initrd  /EFI/miso/${iso_name}.img" >> ${conf}
-	echo "options misobasedir=${iso_name} misolabel=${iso_label} nouveau.modeset=1 i915.modeset=1 radeon.modeset=1 logo.nologo overlay=free" >> ${conf}
+	echo "options misobasedir=${iso_name} misolabel=${iso_label} iomem=relaxed nouveau.modeset=1 i915.modeset=1 radeon.modeset=1 logo.nologo overlay=free" >> ${conf}
 }
 
 write_dvd_nonfree_conf(){
@@ -132,7 +132,7 @@ write_dvd_nonfree_conf(){
 		echo "initrd  /EFI/miso/intel_ucode.img" >> ${conf}
 	fi
 	echo "initrd  /EFI/miso/${iso_name}.img" >> ${conf}
-	echo "options misobasedir=${iso_name} misolabel=${iso_label} nouveau.modeset=1 i915.modeset=1 radeon.modeset=1 logo.nologo overlay=nonfree nonfree=yes" >> ${conf}
+	echo "options misobasedir=${iso_name} misolabel=${iso_label} iomem=relaxed nouveau.modeset=1 i915.modeset=1 radeon.modeset=1 logo.nologo overlay=nonfree nonfree=yes" >> ${conf}
 }
 
 write_usb_conf(){
@@ -146,7 +146,7 @@ write_usb_conf(){
 		echo "initrd  /${iso_name}/boot/intel_ucode.img" >> ${conf}
 	fi
 	echo "initrd  /${iso_name}/boot/${target_arch}/${iso_name}.img" >> ${conf}
-	echo "options misobasedir=${iso_name} misolabel=${iso_label} nouveau.modeset=1 i915.modeset=1 radeon.modeset=1 logo.nologo overlay=free" >> ${conf}
+	echo "options misobasedir=${iso_name} misolabel=${iso_label} iomem=relaxed nouveau.modeset=1 i915.modeset=1 radeon.modeset=1 logo.nologo overlay=free" >> ${conf}
 }
 
 write_usb_nonfree_conf(){
@@ -160,7 +160,7 @@ write_usb_nonfree_conf(){
 		echo "initrd  /${iso_name}/boot/intel_ucode.img" >> ${conf}
 	fi
 	echo "initrd  /${iso_name}/boot/${target_arch}/${iso_name}.img" >> ${conf}
-	echo "options misobasedir=${iso_name} misolabel=${iso_label} nouveau.modeset=1 i915.modeset=1 radeon.modeset=1 logo.nologo overlay=nonfree nonfree=yes" >> ${conf}
+	echo "options misobasedir=${iso_name} misolabel=${iso_label} iomem=relaxed nouveau.modeset=1 i915.modeset=1 radeon.modeset=1 logo.nologo overlay=nonfree nonfree=yes" >> ${conf}
 }
 
 copy_isolinux_bin(){
@@ -224,13 +224,13 @@ write_isolinux_cfg(){
 	local boot_args=($(gen_boot_args))
 	local initrd_arg=$(gen_initrd_arg $path)
 
-	echo "  append ${initrd_arg} misobasedir=${iso_name} misolabel=${iso_label} nouveau.modeset=1 i915.modeset=1 radeon.modeset=1 logo.nologo overlay=free ${boot_args[@]} showopts" >> ${conf}
+	echo "  append ${initrd_arg} misobasedir=${iso_name} misolabel=${iso_label} iomem=relaxed nouveau.modeset=1 i915.modeset=1 radeon.modeset=1 logo.nologo overlay=free ${boot_args[@]} showopts" >> ${conf}
 
 	echo '' >> ${conf}
 	if ${nonfree_xorg};then
 		echo "label nonfree" >> ${conf}
 		echo "  kernel /${iso_name}/boot/${target_arch}/${iso_name}" >> ${conf}
-		echo "  append ${initrd_arg} misobasedir=${iso_name} misolabel=${iso_label} nouveau.modeset=0 i915.modeset=1 radeon.modeset=0 nonfree=yes logo.nologo overlay=nonfree ${boot_args[@]} showopts" >> ${conf}
+		echo "  append ${initrd_arg} misobasedir=${iso_name} misolabel=${iso_label} iomem=relaxed nouveau.modeset=0 i915.modeset=1 radeon.modeset=0 nonfree=yes logo.nologo overlay=nonfree ${boot_args[@]} showopts" >> ${conf}
 		echo '' >> ${conf}
 	fi
 	echo "label harddisk" >> ${conf}
